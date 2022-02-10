@@ -1,58 +1,85 @@
 <template>
   <base-card>
-    <h2>Find an offer</h2>
-    <span class="filter-option">
-      <input type="checkbox" id="apparel" checked @change="setFilter" />
-      <label for="apparel">apparel</label>
-    </span>
-    <span class="filter-option">
-      <input type="checkbox" id="home" checked @change="setFilter" />
-      <label for="home">home</label>
-    </span>
-    <span class="filter-option">
-      <input type="checkbox" id="toys" checked @change="setFilter" />
-      <label for="toys">toys</label>
-    </span>
-    <span class="filter-option">
-      <input type="checkbox" id="sport" checked @change="setFilter" />
-      <label for="sport">sport</label>
-    </span>
-    <span class="filter-option">
-      <input type="checkbox" id="books" checked @change="setFilter" />
-      <label for="books">books</label>
-    </span>
-    <span class="filter-option">
-      <input type="checkbox" id="kitchen" checked @change="setFilter" />
-      <label for="kitchen">kitchen</label>
-    </span>
-    <span class="filter-option">
-      <input type="checkbox" id="hobby" checked @change="setFilter" />
-      <label for="hobby">hobby</label>
-    </span>
-    <span class="filter-option">
-      <input type="checkbox" id="auto" checked @change="setFilter" />
-      <label for="auto">auto</label>
-    </span>
-    <span class="filter-option">
-      <input type="checkbox" id="ussr" checked @change="setFilter" />
-      <label for="ussr">ussr</label>
-    </span>
-    <span class="filter-option">
-      <input type="checkbox" id="plants" checked @change="setFilter" />
-      <label for="plants">plants</label>
-    </span>
-    <span class="filter-option">
-      <input type="checkbox" id="pets" checked @change="setFilter" />
-      <label for="pets">pets</label>
-    </span>
-    <span class="filter-option">
-      <input type="checkbox" id="leisure" checked @change="setFilter" />
-      <label for="leisure">leisure</label>
-    </span>
-    <span class="filter-option">
-      <input type="checkbox" id="others" checked @change="setFilter" />
-      <label for="others">others</label>
-    </span>
+    <h2>Filter by tags:</h2>
+    <div class="filters__list">
+      <label for="apparel">
+        <input type="checkbox" id="apparel" checked @change="setFilter" />
+        <span class="check"></span>
+        apparel</label
+      >
+      <label for="home">
+        <input type="checkbox" id="home" checked @change="setFilter" /><span
+          class="check"
+        ></span>
+        home</label
+      >
+      <label for="toys">
+        <input type="checkbox" id="toys" checked @change="setFilter" /><span
+          class="check"
+        ></span>
+        toys</label
+      >
+      <label for="sport">
+        <input type="checkbox" id="sport" checked @change="setFilter" /><span
+          class="check"
+        ></span>
+        sport</label
+      >
+      <label for="books">
+        <input type="checkbox" id="books" checked @change="setFilter" /><span
+          class="check"
+        ></span>
+        books</label
+      >
+      <label for="kitchen">
+        <input type="checkbox" id="kitchen" checked @change="setFilter" /><span
+          class="check"
+        ></span>
+        kitchen</label
+      >
+      <label for="hobby">
+        <input type="checkbox" id="hobby" checked @change="setFilter" /><span
+          class="check"
+        ></span>
+        hobby</label
+      >
+      <label for="auto">
+        <input type="checkbox" id="auto" checked @change="setFilter" /><span
+          class="check"
+        ></span>
+        auto</label
+      >
+      <label for="ussr">
+        <input type="checkbox" id="ussr" checked @change="setFilter" /><span
+          class="check"
+        ></span>
+        ussr</label
+      >
+      <label for="plants">
+        <input type="checkbox" id="plants" checked @change="setFilter" /><span
+          class="check"
+        ></span>
+        plants</label
+      >
+      <label for="pets">
+        <input type="checkbox" id="pets" checked @change="setFilter" /><span
+          class="check"
+        ></span>
+        pets</label
+      >
+      <label for="leisure">
+        <input type="checkbox" id="leisure" checked @change="setFilter" /><span
+          class="check"
+        ></span>
+        leisure</label
+      >
+      <label for="others">
+        <input type="checkbox" id="others" checked @change="setFilter" /><span
+          class="check"
+        ></span>
+        others</label
+      >
+    </div>
   </base-card>
 </template>
 
@@ -97,20 +124,68 @@ export default {
 
 <style scoped>
 h2 {
-  margin: 0.5rem 0;
+  margin: 0 0 25px;
 }
 
-.filter-option {
-  margin-right: 1rem;
+.filters__list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
 }
 
-.filter-option label,
-.filter-option input {
-  vertical-align: middle;
+input[type="checkbox"] {
+  appearance: none;
+  position: absolute;
+  padding: 0;
+  background-color: transparent;
+  border: none;
 }
 
-.filter-option label {
-  margin-left: 0.25rem;
+label {
+  padding: 5px 10px 5px 33px;
+  position: relative;
+  display: block;
+  background-color: #e2e2e2;
+  cursor: pointer;
+  border-radius: 15px;
+}
+
+.check {
+  position: absolute;
+  content: "";
+  top: 50%;
+  transform: translateY(-50%);
+  left: 5px;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border: 2px solid #275a81;
+  border-radius: 50%;
+}
+
+.check::before {
+  position: absolute;
+  content: "";
+  display: none;
+  top: 4px;
+  left: 50%;
+  width: 8px;
+  height: 6px;
+  border-bottom: 2px solid #222222;
+  border-left: 2px solid #222222;
+  transform: translateX(-50%) rotate(-45deg);
+  transform-origin: center;
+  transition: 0.3s ease-in-out all;
+}
+
+input[type="checkbox"]:checked ~ .check::before {
+  display: block;
+}
+
+label input[type="checkbox"]:checked {
+  color: white;
+  background-color: #275a81;
 }
 
 .filter-option.active label {

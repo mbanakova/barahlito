@@ -1,30 +1,49 @@
 <template>
-  <div class="list-page">
-    <ul v-if="hasCoaches" class="post-list">
-      <CoachItem
-        v-for="coach in filteredCoaches"
-        :key="coach.id"
-        :id="coach.id"
-        :thumbnail="coach.thumbnail"
-        :title="coach.title"
-        :rate="coach.hourlyRate"
-        :areas="coach.areas"
-        :description="coach.description"
-      />
-    </ul>
-    <h3 v-else>No offers yet... Plz come back later</h3>
+  <div>
+    <base-dialog
+      :show="!!error"
+      title="Данные не подгрузились"
+      @close="handleError"
+    >
+      <p>{{ error }}</p>
+    </base-dialog>
+    <div class="list-page">
+      <div v-if="isLoading">
+        <base-spinner></base-spinner>
+      </div>
+      <ul v-else-if="hasCoaches" class="post-list">
+        <CoachItem
+          v-for="coach in filteredCoaches"
+          :key="coach.id"
+          :id="coach.id"
+          :date="coach.date"
+          :thumbnail="coach.thumbnail"
+          :title="coach.title"
+          :rate="coach.hourlyRate"
+          :areas="coach.areas"
+          :description="coach.description"
+        />
+      </ul>
+      <h3 v-else>No offers yet... Plz come back later</h3>
 
-    <section class="side-filter">
-      <base-card>
-        <div class="controls">
-          <base-button mode="bright">refresh</base-button>
-          <base-button mode="standard" v-if="!isCoach" link to="/register"
-            >register</base-button
-          >
-        </div>
-      </base-card>
-      <coach-filter @change-filter="setFilters"></coach-filter>
-    </section>
+      <section class="side-filter">
+        <base-card>
+          <div class="controls">
+            <base-button mode="bright" @click="loadCoaches(true)"
+              >Refresh</base-button
+            >
+            <base-button
+              mode="standard"
+              v-if="!isCoach && !isLoading"
+              link
+              to="/register"
+              >register</base-button
+            >
+          </div>
+        </base-card>
+        <coach-filter @change-filter="setFilters"></coach-filter>
+      </section>
+    </div>
   </div>
 </template>
 
@@ -33,7 +52,9 @@ import CoachItem from "@/components/Coaches/CoachItem";
 import BaseCard from "@/components/UI/BaseCard";
 import BaseButton from "@/components/UI/BaseButton";
 import BaseBadge from "@/components/UI/BaseBadge";
+import BaseSpinner from "@/components/UI/BaseSpinner";
 import CoachFilter from "@/components/Coaches/CoachFilter.vue";
+import BaseDialog from "@/components/UI/BaseDialog.vue";
 
 export default {
   components: {
@@ -42,9 +63,13 @@ export default {
     BaseButton,
     BaseBadge,
     CoachFilter,
+    BaseSpinner,
+    BaseDialog,
   },
   data() {
     return {
+      isLoading: false,
+      error: null,
       activeFilters: {
         apparel: true,
         home: true,
@@ -112,12 +137,30 @@ export default {
       return this.$store.getters["coaches/isCoach"];
     },
     hasCoaches() {
-      return this.$store.getters["coaches/coaches"];
+      return !this.isLoading && this.$store.getters["coaches/coaches"];
     },
+  },
+  created() {
+    this.loadCoaches();
   },
   methods: {
     setFilters(updatedFilters) {
       this.activeFilters = updatedFilters;
+    },
+    async loadCoaches(refresh = false) {
+      this.isLoading = true;
+      try {
+        await this.$store.dispatch("coaches/loadCoaches", {
+          forceRefresh: refresh,
+        });
+        console.log("list updated!");
+      } catch (error) {
+        this.error = error.message || "Something went wrong!";
+      }
+      this.isLoading = false;
+    },
+    handleError() {
+      this.error = null;
     },
   },
 };
@@ -139,10 +182,6 @@ export default {
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 30px;
   padding: 0;
-}
-
-.side-filter {
-  padding: 30px;
 }
 
 @media (max-width: 1023px) {

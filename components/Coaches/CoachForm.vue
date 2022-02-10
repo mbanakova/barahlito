@@ -189,6 +189,7 @@ export default {
   emits: ["save-data"],
   data() {
     return {
+      date: "",
       title: {
         val: "",
         isValid: true,
@@ -247,6 +248,7 @@ export default {
       }
 
       const formData = {
+        date: new Date().toLocaleDateString(),
         title: this.title.val,
         thumbnail: this.thumbnail.val,
         description: this.description.val,

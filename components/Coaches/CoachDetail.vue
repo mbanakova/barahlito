@@ -13,6 +13,7 @@
         <h3>$ {{ rate }}</h3>
         <p>{{ description }}</p>
         <h3 class="offer__owner">{{ owner }}</h3>
+        <h3 class="offer__date">{{ date }}</h3>
         <base-badge
           v-for="area in areas"
           :key="area"
@@ -51,6 +52,9 @@ export default {
     };
   },
   computed: {
+    date() {
+      return this.selectedCoach.date;
+    },
     title() {
       return this.selectedCoach.title;
     },
@@ -107,5 +111,11 @@ export default {
   display: block;
   width: 100%;
   height: auto;
+}
+.offer__date {
+  color: #c5c5c5;
+  font-weight: 700;
+  text-align: left;
+  margin-bottom: 20px;
 }
 </style>

@@ -1,28 +1,49 @@
 <template>
-  <section>
-    <base-card>
-      <header>
-        <h2>Requests on this offer</h2>
-      </header>
-      <ul v-if="hasRequests">
-        <!-- :email это props из requestItem.vue, req.userEmail - ключ из actions объекта contactCoach.userEmail -->
-        <request-item
-          v-for="req in receivedRequests"
-          :key="req.id"
-          :email="req.userEmail"
-          :message="req.message"
-        ></request-item>
-      </ul>
-      <h3 v-else>This offer got no requests yet</h3>
-    </base-card>
-  </section>
+  <div>
+    <base-dialog
+      :show="!!error"
+      title="Данные не подгрузились"
+      @close="handleError"
+    >
+      <p>{{ error }}</p>
+    </base-dialog>
+    <section>
+      <base-card>
+        <header>
+          <h2>Requests on this offer</h2>
+        </header>
+        <div v-if="isLoading">
+          <base-spinner></base-spinner>
+        </div>
+        <ul v-else-if="hasRequests && !isLoading">
+          <!-- :email это props из requestItem.vue, req.userEmail - ключ из actions объекта contactCoach.userEmail -->
+          <request-item
+            v-for="req in receivedRequests"
+            :key="req.id"
+            :email="req.userEmail"
+            :message="req.message"
+          ></request-item>
+        </ul>
+        <h3 v-else>This offer got no requests yet</h3>
+      </base-card>
+    </section>
+  </div>
 </template>
 
 <script>
 import BaseCard from "@/components/UI/BaseCard.vue";
 import RequestItem from "@/components/Requests/RequestItem.vue";
+import BaseDialog from "@/components/UI/BaseDialog.vue";
+import BaseSpinner from "@/components/UI/BaseSpinner.vue";
+
 export default {
-  components: { BaseCard, RequestItem },
+  components: { BaseCard, RequestItem, BaseDialog, BaseSpinner },
+  data() {
+    return {
+      isLoading: false,
+      error: null,
+    };
+  },
   computed: {
     receivedRequests() {
       // возвращает из store.state массив requests геттером requests
@@ -30,6 +51,24 @@ export default {
     },
     hasRequests() {
       return this.$store.getters["requests/hasRequests"];
+    },
+  },
+  created() {
+    this.loadRequests();
+  },
+  methods: {
+    async loadRequests() {
+      this.isLoading = true;
+      try {
+        await this.$store.dispatch("requests/fetchRequests");
+      } catch (error) {
+        this.error = error.message || "No requests found for this offer";
+      }
+      this.isLoading = false;
+    },
+
+    handleError() {
+      this.error = null;
     },
   },
 };

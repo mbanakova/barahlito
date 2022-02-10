@@ -44,7 +44,6 @@ export default {
         userEmail: this.email,
         message: this.message,
       });
-      console.log(this.$route.params.id, this.email, this.message);
       this.$router.replace("/coaches");
     },
   },

@@ -5,7 +5,7 @@
       :style="{ backgroundImage: 'url(' + thumbnail + ')' }"
     ></div>
     <div class="post-content">
-      <div class="post-date">06.02.2022</div>
+      <div class="post-date">{{ date }}</div>
       <div class="item-price">$ {{ rate }}</div>
       <h1 class="post-title">{{ title }}</h1>
 
@@ -31,7 +31,7 @@ import BaseBadge from "@/components/UI/BaseBadge";
 
 export default {
   components: { BaseBadge },
-  props: ["id", "title", "rate", "areas", "description", "thumbnail"],
+  props: ["id", "date", "title", "rate", "areas", "description", "thumbnail"],
   computed: {
     // coachContactLink() {
     //   return this.$route.path + "/" + this.id + "/contact"; //coaches/c1/contact

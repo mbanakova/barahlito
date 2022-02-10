@@ -42,6 +42,8 @@ html {
 body {
   margin: 0;
   overflow-x: hidden;
+  font-size: 16px;
+  line-height: 20px;
 }
 
 .main {
