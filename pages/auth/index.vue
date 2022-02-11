@@ -1,47 +1,55 @@
 <template>
-  <div class="wrapper">
-    <base-card>
-      <form @submit.prevent="submitForm">
-        <div class="form-control">
-          <label for="email">E-mail</label>
-          <input type="email" id="email" v-model.trim="email" />
-        </div>
-        <div class="form-control">
-          <label for="password">Password</label>
-          <input type="password" id="password" v-model.trim="password" />
-        </div>
-        <p v-if="!formIsValid">Min password.length === 6 signs!</p>
-        <!-- <base-button mode="bright">{{ submitButtonCaption }}</base-button>
+  <div>
+    <base-dialog :show="!!error" title="An Error occured" @close="handleError">
+      <p>{{ error }}</p>
+    </base-dialog>
+    <base-dialog :show="isLoading" title="Authenticating" fixed>
+      <base-spinner></base-spinner>
+    </base-dialog>
+    <div class="wrapper">
+      <base-card>
+        <form @submit.prevent="submitForm">
+          <div class="form-control">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" v-model.trim="email" />
+          </div>
+          <div class="form-control">
+            <label for="password">Password</label>
+            <input type="password" id="password" v-model.trim="password" />
+          </div>
+          <p v-if="!formIsValid">Min password.length === 6 signs!</p>
+          <!-- <base-button mode="bright">{{ submitButtonCaption }}</base-button>
         <base-button type="button" mode="standard" @click="switchAuthMode">{{
           switchModeButtonCaption
         }}</base-button> -->
-        <button
-          type="button"
-          class="base-button base-button--bright"
-          @click="switchAuthMode"
-        >
-          {{ submitButtonCaption }}
-        </button>
-        <button type="button" class="base-button" @click="switchAuthMode">
-          {{ switchModeButtonCaption }}
-        </button>
-      </form>
-    </base-card>
+          <button type="submit" class="base-button base-button--bright">
+            {{ submitButtonCaption }}
+          </button>
+          <button type="button" class="base-button" @click="switchAuthMode">
+            {{ switchModeButtonCaption }}
+          </button>
+        </form>
+      </base-card>
+    </div>
   </div>
 </template>
 
 <script>
 import BaseCard from "@/components/UI/BaseCard.vue";
 import BaseButton from "@/components/UI/BaseButton.vue";
+import BaseDialog from "@/components/UI/BaseDialog.vue";
+import BaseSpinner from "@/components/UI/BaseSpinner.vue";
 
 export default {
-  components: { BaseButton, BaseCard },
+  components: { BaseButton, BaseCard, BaseDialog, BaseSpinner },
   data() {
     return {
       email: "",
       password: "",
       formIsValid: true,
       mode: "login",
+      isLoading: false,
+      error: null,
     };
   },
   computed: {
@@ -61,15 +69,34 @@ export default {
     },
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       this.formIsValid = true;
       if (
         this.email === "" ||
         !this.email.includes("@") ||
         this.password.length < 6
-      )
+      ) {
         this.formIsValid = false;
-      return;
+        return;
+      }
+      this.isLoading = true;
+
+      const actionPayload = {
+        email: this.email,
+        password: this.password,
+      };
+
+      try {
+        if (this.mode === "login") {
+          await this.$store.dispatch("login", actionPayload);
+        } else {
+          await this.$store.dispatch("signup", actionPayload);
+        }
+      } catch (err) {
+        this.error = err.message;
+      }
+
+      this.isLoading = false;
     },
     switchAuthMode() {
       if (this.mode === "login") {
@@ -77,7 +104,10 @@ export default {
       } else {
         this.mode = "login";
       }
-      console.log(this.mode);
+      console.log("you can now " + this.mode);
+    },
+    handleError() {
+      this.error = null;
     },
   },
 };
