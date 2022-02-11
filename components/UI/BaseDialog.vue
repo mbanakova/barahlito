@@ -12,7 +12,7 @@
       </section>
       <menu>
         <slot name="actions">
-          <base-button @click="tryClose" mode="standard">Close</base-button>
+          <button @click="tryClose" class="base-button">Close</button>
         </slot>
       </menu>
     </dialog>

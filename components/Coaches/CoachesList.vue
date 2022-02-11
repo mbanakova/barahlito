@@ -29,9 +29,12 @@
       <section class="side-filter">
         <base-card>
           <div class="controls">
-            <base-button mode="bright" @click="loadCoaches(true)"
-              >Refresh</base-button
+            <button
+              class="base-button base-button--bright"
+              @click="loadCoaches(true)"
             >
+              Refresh
+            </button>
             <base-button
               mode="standard"
               v-if="!isCoach && !isLoading"

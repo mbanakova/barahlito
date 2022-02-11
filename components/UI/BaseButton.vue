@@ -1,9 +1,9 @@
 <template>
   <button v-if="!link" :class="mode">
-    <slot></slot>
+    <slot />
   </button>
   <nuxt-link v-else :to="to" :class="mode">
-    <slot></slot>
+    <slot />
   </nuxt-link>
 </template>
 
