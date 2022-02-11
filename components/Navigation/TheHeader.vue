@@ -12,11 +12,14 @@
           <li class="nav-item">
             <nuxt-link to="/coaches">Coaches</nuxt-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="isLoggedIn">
             <nuxt-link to="/requests">Requests</nuxt-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="isLoggedIn">
             <nuxt-link to="/register">Register</nuxt-link>
+          </li>
+          <li class="nav-item" v-else>
+            <nuxt-link to="/auth">Login</nuxt-link>
           </li>
         </ul>
       </div>
@@ -32,6 +35,12 @@ export default {
   name: "TheHeader",
   components: {
     TheSideNavToggle,
+  },
+  computed: {
+    isLoggedIn() {
+      // module Auth is not namespaced, so we can access like this
+      return this.$store.getters.isAuthenticated;
+    },
   },
 };
 </script>

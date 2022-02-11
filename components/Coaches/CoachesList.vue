@@ -35,9 +35,21 @@
             >
               Refresh
             </button>
+            <nuxt-link to="/auth" class="base-button" v-if="!isLoggedIn"
+              >Login</nuxt-link
+            >
+            <!-- <base-button
+              mode="standard"
+              v-if="isLoggedIn && !isCoach && !isLoading"
+              link
+              to="/register"
+              >register</base-button
+            > -->
+
+            <!-- trying to delete !isCoach for multiple offers per ID option -->
             <base-button
               mode="standard"
-              v-if="!isCoach && !isLoading"
+              v-if="isLoggedIn && !isLoading"
               link
               to="/register"
               >register</base-button
@@ -91,6 +103,10 @@ export default {
     };
   },
   computed: {
+    isLoggedIn() {
+      // module Auth is not namespaced, so we can access like this
+      return this.$store.getters.isAuthenticated;
+    },
     filteredCoaches() {
       const coaches = this.$store.getters["coaches/coaches"]; // namespacedName/gettersName
       return coaches.filter((coach) => {
@@ -136,9 +152,9 @@ export default {
         return false;
       });
     },
-    isCoach() {
-      return this.$store.getters["coaches/isCoach"];
-    },
+    // isCoach() {
+    //   return this.$store.getters["coaches/isCoach"];
+    // },
     hasCoaches() {
       return !this.isLoading && this.$store.getters["coaches/coaches"];
     },

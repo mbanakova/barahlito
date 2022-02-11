@@ -14,12 +14,14 @@
         <p>{{ description }}</p>
         <h3 class="offer__owner">{{ owner }}</h3>
         <h3 class="offer__date">{{ date }}</h3>
-        <base-badge
-          v-for="area in areas"
-          :key="area"
-          :type="area"
-          :badgeTitle="area"
-        ></base-badge>
+        <div class="badges__list">
+          <base-badge
+            v-for="area in areas"
+            :key="area"
+            :type="area"
+            :badgeTitle="area"
+          ></base-badge>
+        </div>
       </base-card>
     </section>
     <section class="offer__chat">
@@ -117,5 +119,11 @@ export default {
   font-weight: 700;
   text-align: left;
   margin-bottom: 20px;
+}
+
+.badges__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 </style>

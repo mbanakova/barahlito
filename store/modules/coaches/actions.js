@@ -10,8 +10,10 @@ export default {
       hourlyRate: data.hourlyRate,
       areas: data.areas,
     }
+
+    const token = context.rootGetters.token;
     // этот объект уедет в firebase
-    const response = await fetch(`https://barahlito-bc730-default-rtdb.firebaseio.com/coaches/${userId}.json`, {
+    const response = await fetch(`https://barahlito-bc730-default-rtdb.firebaseio.com/coaches/${userId}.json?auth=` + token, {
       method: 'PUT',
       body: JSON.stringify(coachData)
     })
