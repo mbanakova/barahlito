@@ -21,6 +21,9 @@
           <li class="nav-item" v-else>
             <nuxt-link to="/auth">Login</nuxt-link>
           </li>
+          <li class="nav-item" v-if="isLoggedIn">
+            <button class="logout" @click="logout">Logout</button>
+          </li>
         </ul>
       </div>
     </div>
@@ -40,6 +43,12 @@ export default {
     isLoggedIn() {
       // module Auth is not namespaced, so we can access like this
       return this.$store.getters.isAuthenticated;
+    },
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("logout");
+      console.log("logged out");
     },
   },
 };
@@ -100,16 +109,26 @@ export default {
   margin: 0 10px;
 }
 
-.nav-item a {
+.nav-item a,
+.nav-item .logout {
   text-decoration: none;
   color: white;
+  background-color: transparent;
   padding: 10px;
   border: 1px solid transparent;
+  display: block;
+  font-size: 16px;
+  line-height: 20px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 
 .nav-item a:hover,
 .nav-item a:active,
-.nav-item a.nuxt-link-active {
+.nav-item a.nuxt-link-active,
+.nav-item .logout:hover,
+.nav-item .logout:active {
   color: #94ddff;
   border: 1px solid #94ddff;
 }
