@@ -1,14 +1,14 @@
 export default {
-  coaches(state) {
-    return state.coaches;
+  offers(state) {
+    return state.offers;
   },
-  hasCoaches(state) {
-    return state.coaches && state.coaches.length > 0;
+  hasOffers(state) {
+    return state.offers && state.offers.length > 0;
   },
-  isCoach(_, getters, _2, rootGetters) {
-    const coaches = getters.coaches;
+  isOffer(_, getters, _2, rootGetters) {
+    const offers = getters.offers;
     const userId = rootGetters.userId;
-    return coaches.some(coach => coach.id === userId)
+    return offers.some(offer => offer.id === userId)
   },
   shouldUpdate(state) {
     const lastFetch = state.lastFetch;

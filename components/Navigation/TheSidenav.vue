@@ -4,7 +4,7 @@
     <transition name="slide-side">
       <div v-if="show" class="sidenav">
         <ul class="nav-list" @click="$emit('close')">
-          <li class="nav-item"><nuxt-link to="/coaches">Coaches</nuxt-link></li>
+          <li class="nav-item"><nuxt-link to="/offers">Offers</nuxt-link></li>
           <li class="nav-item">
             <nuxt-link to="/requests">Requests</nuxt-link>
           </li>

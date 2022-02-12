@@ -33,55 +33,53 @@
           >
         </header>
         <!-- <router-view></router-view> -->
-        <contact-coach></contact-coach>
+        <contact-offer></contact-offer>
       </base-card>
     </section>
   </div>
 </template>
 
 <script>
-import ContactCoach from "../Requests/ContactCoach.vue";
-import BaseBadge from "../UI/BaseBadge.vue";
-import BaseButton from "../UI/BaseButton.vue";
-import BaseCard from "../UI/BaseCard.vue";
+import ContactOffer from "../Requests/ContactOffer.vue";
+
 
 export default {
-  components: { BaseCard, BaseButton, BaseBadge, ContactCoach },
+  components: { ContactOffer },
   props: ["id"],
   data() {
     return {
-      selectedCoach: null,
+      selectedOffer: null,
     };
   },
   computed: {
     date() {
-      return this.selectedCoach.date;
+      return this.selectedOffer.date;
     },
     title() {
-      return this.selectedCoach.title;
+      return this.selectedOffer.title;
     },
     owner() {
-      return this.selectedCoach.owner;
+      return this.selectedOffer.owner;
     },
     thumbnail() {
-      return this.selectedCoach.thumbnail;
+      return this.selectedOffer.thumbnail;
     },
     areas() {
-      return this.selectedCoach.areas;
+      return this.selectedOffer.areas;
     },
     rate() {
-      return this.selectedCoach.hourlyRate;
+      return this.selectedOffer.hourlyRate;
     },
     description() {
-      return this.selectedCoach.description;
+      return this.selectedOffer.description;
     },
     contactLink() {
       return this.$route.path + "/contact";
     },
   },
   created() {
-    this.selectedCoach = this.$store.getters["coaches/coaches"].find(
-      (coach) => coach.id === this.$route.params.id
+    this.selectedOffer = this.$store.getters["offers/offers"].find(
+      (offer) => offer.id === this.$route.params.id
     );
   },
 };

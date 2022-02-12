@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CoachesList />
+    <OffersList />
   </div>
 </template>
 

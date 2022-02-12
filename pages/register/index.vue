@@ -1,11 +1,12 @@
 <template>
-  <CoachRegistration />
+  <OfferRegistration />
 </template>
 
 <script>
-import CoachRegistration from "@/components/Coaches/CoachRegistration.vue";
+import OfferRegistration from "@/components/Offers/OfferRegistration.vue";
 export default {
-  components: { CoachRegistration },
+  middleware: ["check-auth", "auth"],
+  components: { OfferRegistration },
 };
 </script>
 

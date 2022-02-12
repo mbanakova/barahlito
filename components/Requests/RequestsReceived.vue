@@ -16,7 +16,7 @@
           <base-spinner></base-spinner>
         </div>
         <ul v-else-if="hasRequests && !isLoading">
-          <!-- :email это props из requestItem.vue, req.userEmail - ключ из actions объекта contactCoach.userEmail -->
+          <!-- :email это props из requestItem.vue, req.userEmail - ключ из actions объекта contactOffer.userEmail -->
           <request-item
             v-for="req in receivedRequests"
             :key="req.id"
@@ -31,13 +31,10 @@
 </template>
 
 <script>
-import BaseCard from "@/components/UI/BaseCard.vue";
 import RequestItem from "@/components/Requests/RequestItem.vue";
-import BaseDialog from "@/components/UI/BaseDialog.vue";
-import BaseSpinner from "@/components/UI/BaseSpinner.vue";
 
 export default {
-  components: { BaseCard, RequestItem, BaseDialog, BaseSpinner },
+  components: { RequestItem },
   data() {
     return {
       isLoading: false,

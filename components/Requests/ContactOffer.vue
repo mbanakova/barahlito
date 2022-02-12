@@ -20,10 +20,7 @@
 </template>
 
 <script>
-import BaseButton from "@/components/UI/BaseButton.vue";
-import BaseCard from "@/components/UI/BaseCard.vue";
 export default {
-  components: { BaseButton, BaseCard },
   data() {
     return {
       email: "",
@@ -38,13 +35,13 @@ export default {
         this.formIsValid = false;
         return;
       }
-      // при отправке формы action 'contactCoach' добавляет в state.requests объект с собранными данными
-      this.$store.dispatch("requests/contactCoach", {
-        coachId: this.$route.params.id,
+      // при отправке формы action 'contactOffer' добавляет в state.requests объект с собранными данными
+      this.$store.dispatch("requests/contactOffer", {
+        offerId: this.$route.params.id,
         userEmail: this.email,
         message: this.message,
       });
-      this.$router.replace("/coaches");
+      this.$router.replace("/offers");
     },
   },
 };

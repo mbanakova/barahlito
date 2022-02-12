@@ -1,14 +1,14 @@
 <template>
   <div>
-    <CoachDetail />
+    <OfferDetail />
   </div>
 </template>
 
 <script>
-import CoachDetail from "@/components/Coaches/CoachDetail";
+import OfferDetail from "@/components/Offers/OfferDetail";
 export default {
   components: {
-    CoachDetail,
+    OfferDetail,
   },
 };
 </script>

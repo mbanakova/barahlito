@@ -7,7 +7,7 @@ export default {
   state() {
     return {
       lastFetch: null,
-      coaches: [
+      offerss: [
         {
           id: 'c1',
           owner: 'John Doe',

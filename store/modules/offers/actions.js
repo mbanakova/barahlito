@@ -1,8 +1,8 @@
 export default {
-  async registerCoach(context, data) {
+  async registerOffer(context, data) {
     const userId = context.rootGetters.userId;
 
-    const coachData = {
+    const offerData = {
       date: data.date,
       title: data.title,
       thumbnail: data.thumbnail,
@@ -15,21 +15,22 @@ export default {
     // этот объект уедет в firebase
     const response = await fetch(`https://barahlito-bc730-default-rtdb.firebaseio.com/coaches/${userId}.json?auth=` + token, {
       method: 'PUT',
-      body: JSON.stringify(coachData)
+      body: JSON.stringify(offerData)
     })
 
     // const responseData = await response.json();
 
     if (!response.ok) {
-      // error
+      const error = new Error(responseData.message);
+      throw error;
     }
 
-    context.commit('registerCoach', {
-      ...coachData,
+    context.commit('registerOffer', {
+      ...offerData,
       id: userId
     })
   },
-  async loadCoaches(context, payload) {
+  async loadOffers(context, payload) {
     if (!payload.forceRefresh && !context.getters.shouldUpdate) {
       return;
     }
@@ -43,10 +44,10 @@ export default {
       throw error;
     }
 
-    const coaches = [];
+    const offers = [];
 
     for (const key in responseData) {
-      const coach = {
+      const offer = {
         id: key,
         date: responseData[key].date,
         title: responseData[key].title,
@@ -55,11 +56,11 @@ export default {
         hourlyRate: responseData[key].hourlyRate,
         areas: responseData[key].areas,
       }
-      coaches.push(coach)
+      offers.push(offer)
     }
 
-    // данные для CoachesList.vue, обновляют список из firebase
-    context.commit('setCoaches', coaches)
+    // данные для OffersList.vue, обновляют список из firebase
+    context.commit('setOffers', offers)
     context.commit('setFetchTimestamp')
   }
 };

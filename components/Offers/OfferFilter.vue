@@ -84,9 +84,7 @@
 </template>
 
 <script>
-import BaseCard from "../UI/BaseCard.vue";
 export default {
-  components: { BaseCard },
   emits: ["change-filter"],
   data() {
     return {

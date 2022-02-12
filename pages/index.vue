@@ -5,7 +5,7 @@
         <h1>Give your trash a new life!</h1>
       </div>
     </section>
-    <CoachesList />
+    <OffersList />
   </div>
 </template>
 

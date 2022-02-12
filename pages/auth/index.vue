@@ -8,7 +8,7 @@
     </base-dialog>
     <div class="wrapper">
       <base-card>
-        <form @submit.prevent="submitForm">
+        <form @submit.prevent="onSubmit">
           <div class="form-control">
             <label for="email">E-mail</label>
             <input type="email" id="email" v-model.trim="email" />
@@ -17,16 +17,12 @@
             <label for="password">Password</label>
             <input type="password" id="password" v-model.trim="password" />
           </div>
-          <p v-if="!formIsValid">Min password.length === 6 signs!</p>
-          <!-- <base-button mode="bright">{{ submitButtonCaption }}</base-button>
-        <base-button type="button" mode="standard" @click="switchAuthMode">{{
-          switchModeButtonCaption
-        }}</base-button> -->
+          <p v-if="!formIsValid">Минимальная длина пароля — 6 символов</p>
           <button type="submit" class="base-button base-button--bright">
-            {{ submitButtonCaption }}
+            {{ isLogin ? "Вход" : "Регистрация" }}
           </button>
-          <button type="button" class="base-button" @click="switchAuthMode">
-            {{ switchModeButtonCaption }}
+          <button type="button" class="toggle-link" @click="isLogin = !isLogin">
+            {{ isLogin ? "Зарегистрироваться" : "Войти с паролем" }}
           </button>
         </form>
       </base-card>
@@ -35,76 +31,33 @@
 </template>
 
 <script>
-import BaseCard from "@/components/UI/BaseCard.vue";
-import BaseButton from "@/components/UI/BaseButton.vue";
-import BaseDialog from "@/components/UI/BaseDialog.vue";
-import BaseSpinner from "@/components/UI/BaseSpinner.vue";
-
 export default {
-  components: { BaseButton, BaseCard, BaseDialog, BaseSpinner },
   data() {
     return {
       email: "",
       password: "",
       formIsValid: true,
-      mode: "login",
+      isLogin: true,
       isLoading: false,
       error: null,
     };
   },
-  computed: {
-    submitButtonCaption() {
-      if (this.mode === "login") {
-        return "Войти";
-      } else {
-        return "Регистрация";
-      }
-    },
-    switchModeButtonCaption() {
-      if (this.mode === "login") {
-        return "Или зарегистрироваться";
-      } else {
-        return "Или войти";
-      }
-    },
-  },
   methods: {
-    async submitForm() {
+    onSubmit() {
       this.formIsValid = true;
-      if (
-        this.email === "" ||
-        !this.email.includes("@") ||
-        this.password.length < 6
-      ) {
-        this.formIsValid = false;
-        return;
-      }
-      this.isLoading = true;
-
-      const actionPayload = {
-        email: this.email,
-        password: this.password,
-      };
-
-      try {
-        if (this.mode === "login") {
-          await this.$store.dispatch("login", actionPayload);
-        } else {
-          await this.$store.dispatch("signup", actionPayload);
-        }
-      } catch (err) {
-        this.error = err.message;
-      }
-
-      this.isLoading = false;
-    },
-    switchAuthMode() {
-      if (this.mode === "login") {
-        this.mode = "signup";
-      } else {
-        this.mode = "login";
-      }
-      console.log("you can now " + this.mode);
+      this.$store
+        .dispatch("authenticateUser", {
+          isLogin: this.isLogin,
+          email: this.email,
+          password: this.password,
+        })
+        .then(() => {
+          this.$router.replace("/offers");
+        })
+        .catch((e) => {
+          this.formIsValid = false;
+          this.error = new Error(e);
+        });
     },
     handleError() {
       this.error = null;
@@ -139,5 +92,16 @@ textarea:focus {
   border-color: #275a81;
   background-color: #ebf6ff;
   outline: none;
+}
+
+.toggle-link {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: 500;
+  padding: 0.15rem;
+  font-size: 16px;
+  margin-left: 30px;
 }
 </style>

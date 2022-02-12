@@ -10,19 +10,19 @@
       <div class="navigation-items">
         <ul class="nav-list">
           <li class="nav-item">
-            <nuxt-link to="/coaches">Coaches</nuxt-link>
+            <nuxt-link to="/offers">Offers</nuxt-link>
           </li>
           <li class="nav-item" v-if="isLoggedIn">
             <nuxt-link to="/requests">Requests</nuxt-link>
           </li>
           <li class="nav-item" v-if="isLoggedIn">
-            <nuxt-link to="/register">Register</nuxt-link>
+            <nuxt-link to="/register">Add new offer</nuxt-link>
           </li>
           <li class="nav-item" v-else>
             <nuxt-link to="/auth">Login</nuxt-link>
           </li>
           <li class="nav-item" v-if="isLoggedIn">
-            <button class="logout" @click="logout">Logout</button>
+            <button class="logout" @click="onLogout">Logout</button>
           </li>
         </ul>
       </div>
@@ -46,9 +46,10 @@ export default {
     },
   },
   methods: {
-    logout() {
+    onLogout() {
       this.$store.dispatch("logout");
       console.log("logged out");
+      this.$router.replace("/auth");
     },
   },
 };
@@ -103,10 +104,7 @@ export default {
   padding: 0;
   margin: 0;
   display: flex;
-}
-
-.nav-item {
-  margin: 0 10px;
+  gap: 20px;
 }
 
 .nav-item a,
@@ -122,6 +120,10 @@ export default {
   font-family: inherit;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+}
+
+.nav-item:last-child {
+  margin-left: 60px;
 }
 
 .nav-item a:hover,

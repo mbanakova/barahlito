@@ -12,12 +12,15 @@ import TheHeader from "@/components/Navigation/TheHeader";
 import TheSidenav from "@/components/Navigation/TheSidenav";
 import TheFooter from "@/components/Navigation/TheFooter";
 export default {
-  // middleware: "log",
+  // middleware: ["check-auth", "auth"],
   components: {
     TheHeader,
     TheSidenav,
     TheFooter,
   },
+  // created() {
+  //   this.$store.dispatch("tryLogin");
+  // },
   data() {
     return {
       displaySideNav: false,

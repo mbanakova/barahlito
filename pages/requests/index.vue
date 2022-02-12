@@ -6,11 +6,10 @@
 
 <script>
 import RequestsReceived from "../../components/Requests/RequestsReceived.vue";
-// import ContactCoach from "@/components/Requests/ContactCoach.vue";
 
 export default {
+  middleware: ["check-auth", "auth"],
   components: { RequestsReceived },
-  // components: { ContactCoach },
 };
 </script>
 

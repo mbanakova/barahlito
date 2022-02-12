@@ -21,34 +21,26 @@
           :badgeTitle="area"
         ></base-badge>
       </div>
-      <nuxt-link :to="coachDetailsLink" class="post-cta">More info</nuxt-link>
+      <nuxt-link :to="offerDetailsLink" class="post-cta">More info</nuxt-link>
     </div>
   </li>
 </template>
 
 <script>
-import BaseBadge from "@/components/UI/BaseBadge";
-
 export default {
-  components: { BaseBadge },
   props: ["id", "date", "title", "rate", "areas", "description", "thumbnail"],
   computed: {
-    // coachContactLink() {
-    //   return this.$route.path + "/" + this.id + "/contact"; //coaches/c1/contact
+    // offerContactLink() {
+    //   return this.$route.path + "/" + this.id + "/contact"; //offers/c1/contact
     // },
-    coachDetailsLink() {
-      return "/coaches/" + this.id; //coaches/c1
+    offerDetailsLink() {
+      return "/offers/" + this.id; //offers/c1
     },
   },
 };
 </script>
 
 <style scoped>
-/* .post-preview {
-  display: block;
-  width: 100%;
-} */
-
 .post-card {
   border-radius: 6px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.08);

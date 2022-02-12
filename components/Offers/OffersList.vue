@@ -11,17 +11,17 @@
       <div v-if="isLoading">
         <base-spinner></base-spinner>
       </div>
-      <ul v-else-if="hasCoaches" class="post-list">
-        <CoachItem
-          v-for="coach in filteredCoaches"
-          :key="coach.id"
-          :id="coach.id"
-          :date="coach.date"
-          :thumbnail="coach.thumbnail"
-          :title="coach.title"
-          :rate="coach.hourlyRate"
-          :areas="coach.areas"
-          :description="coach.description"
+      <ul v-else-if="hasOffers" class="post-list">
+        <OfferItem
+          v-for="offer in filteredOffers"
+          :key="offer.id"
+          :id="offer.id"
+          :date="offer.date"
+          :thumbnail="offer.thumbnail"
+          :title="offer.title"
+          :rate="offer.hourlyRate"
+          :areas="offer.areas"
+          :description="offer.description"
         />
       </ul>
       <h3 v-else>No offers yet... Plz come back later</h3>
@@ -31,55 +31,49 @@
           <div class="controls">
             <button
               class="base-button base-button--bright"
-              @click="loadCoaches(true)"
+              @click="loadOffers(true)"
             >
               Refresh
             </button>
-            <nuxt-link to="/auth" class="base-button" v-if="!isLoggedIn"
-              >Login</nuxt-link
-            >
+            <!-- <nuxt-link
+              to="/auth?redirect=register"
+              class="base-button"
+              v-if="!isLoggedIn"
+              >Login to add an offer</nuxt-link
+            > -->
+
             <!-- <base-button
               mode="standard"
-              v-if="isLoggedIn && !isCoach && !isLoading"
+              v-if="isLoggedIn && !isOffer && !isLoading"
               link
               to="/register"
               >register</base-button
             > -->
 
-            <!-- trying to delete !isCoach for multiple offers per ID option -->
+            <!-- trying to delete !isOffer for multiple offers per ID option -->
             <base-button
               mode="standard"
               v-if="isLoggedIn && !isLoading"
               link
               to="/register"
-              >register</base-button
+              >Add new offer</base-button
             >
           </div>
         </base-card>
-        <coach-filter @change-filter="setFilters"></coach-filter>
+        <offer-filter @change-filter="setFilters"></offer-filter>
       </section>
     </div>
   </div>
 </template>
 
 <script>
-import CoachItem from "@/components/Coaches/CoachItem";
-import BaseCard from "@/components/UI/BaseCard";
-import BaseButton from "@/components/UI/BaseButton";
-import BaseBadge from "@/components/UI/BaseBadge";
-import BaseSpinner from "@/components/UI/BaseSpinner";
-import CoachFilter from "@/components/Coaches/CoachFilter.vue";
-import BaseDialog from "@/components/UI/BaseDialog.vue";
+import OfferItem from "@/components/Offers/OfferItem";
+import OfferFilter from "@/components/Offers/OfferFilter.vue";
 
 export default {
   components: {
-    CoachItem,
-    BaseCard,
-    BaseButton,
-    BaseBadge,
-    CoachFilter,
-    BaseSpinner,
-    BaseDialog,
+    OfferItem,
+    OfferFilter,
   },
   data() {
     return {
@@ -107,72 +101,71 @@ export default {
       // module Auth is not namespaced, so we can access like this
       return this.$store.getters.isAuthenticated;
     },
-    filteredCoaches() {
-      const coaches = this.$store.getters["coaches/coaches"]; // namespacedName/gettersName
-      return coaches.filter((coach) => {
-        if (this.activeFilters.apparel && coach.areas.includes("apparel")) {
+    filteredOffers() {
+      const offers = this.$store.getters["offers/offers"]; // namespacedName/gettersName
+      return offers.filter((offer) => {
+        if (this.activeFilters.apparel && offer.areas.includes("apparel")) {
           return true;
         }
-        if (this.activeFilters.home && coach.areas.includes("home")) {
+        if (this.activeFilters.home && offer.areas.includes("home")) {
           return true;
         }
-        if (this.activeFilters.toys && coach.areas.includes("toys")) {
+        if (this.activeFilters.toys && offer.areas.includes("toys")) {
           return true;
         }
-        if (this.activeFilters.sport && coach.areas.includes("sport")) {
+        if (this.activeFilters.sport && offer.areas.includes("sport")) {
           return true;
         }
-        if (this.activeFilters.books && coach.areas.includes("books")) {
+        if (this.activeFilters.books && offer.areas.includes("books")) {
           return true;
         }
-        if (this.activeFilters.kitchen && coach.areas.includes("kitchen")) {
+        if (this.activeFilters.kitchen && offer.areas.includes("kitchen")) {
           return true;
         }
-        if (this.activeFilters.hobby && coach.areas.includes("hobby")) {
+        if (this.activeFilters.hobby && offer.areas.includes("hobby")) {
           return true;
         }
-        if (this.activeFilters.auto && coach.areas.includes("auto")) {
+        if (this.activeFilters.auto && offer.areas.includes("auto")) {
           return true;
         }
-        if (this.activeFilters.ussr && coach.areas.includes("ussr")) {
+        if (this.activeFilters.ussr && offer.areas.includes("ussr")) {
           return true;
         }
-        if (this.activeFilters.plants && coach.areas.includes("plants")) {
+        if (this.activeFilters.plants && offer.areas.includes("plants")) {
           return true;
         }
-        if (this.activeFilters.pets && coach.areas.includes("pets")) {
+        if (this.activeFilters.pets && offer.areas.includes("pets")) {
           return true;
         }
-        if (this.activeFilters.leisure && coach.areas.includes("leisure")) {
+        if (this.activeFilters.leisure && offer.areas.includes("leisure")) {
           return true;
         }
-        if (this.activeFilters.others && coach.areas.includes("others")) {
+        if (this.activeFilters.others && offer.areas.includes("others")) {
           return true;
         }
         return false;
       });
     },
-    // isCoach() {
-    //   return this.$store.getters["coaches/isCoach"];
+    // isOffer() {
+    //   return this.$store.getters["offers/isOffer"];
     // },
-    hasCoaches() {
-      return !this.isLoading && this.$store.getters["coaches/coaches"];
+    hasOffers() {
+      return !this.isLoading && this.$store.getters["offers/offers"];
     },
   },
   created() {
-    this.loadCoaches();
+    this.loadOffers();
   },
   methods: {
     setFilters(updatedFilters) {
       this.activeFilters = updatedFilters;
     },
-    async loadCoaches(refresh = false) {
+    async loadOffers(refresh = false) {
       this.isLoading = true;
       try {
-        await this.$store.dispatch("coaches/loadCoaches", {
+        await this.$store.dispatch("offers/loadOffers", {
           forceRefresh: refresh,
         });
-        console.log("list updated!");
       } catch (error) {
         this.error = error.message || "Something went wrong!";
       }
