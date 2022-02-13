@@ -1,9 +1,10 @@
 <template>
   <li class="post-card">
-    <div
+    <nuxt-link
+      :to="offerDetailsLink"
       class="post-thumbnail"
       :style="{ backgroundImage: 'url(' + thumbnail + ')' }"
-    ></div>
+    ></nuxt-link>
     <div class="post-content">
       <div class="post-date">{{ date }}</div>
       <div class="item-price">$ {{ rate }}</div>
@@ -11,9 +12,6 @@
 
       <p class="post-description">{{ description }}</p>
       <div class="post-tags">
-        <!-- <span class="post-tag" v-for="area in areas" :key="area">{{
-          area
-        }}</span> -->
         <base-badge
           v-for="area in areas"
           :key="area"
@@ -56,6 +54,8 @@ a {
 .post-thumbnail {
   width: 100%;
   height: 200px;
+  display: block;
+  text-decoration: none;
   background-position: center;
   background-size: cover;
   border-bottom-left-radius: 6px;

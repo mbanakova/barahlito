@@ -10,7 +10,7 @@
       <div class="navigation-items">
         <ul class="nav-list">
           <li class="nav-item">
-            <nuxt-link to="/offers">Offers</nuxt-link>
+            <nuxt-link to="/offers">My offers</nuxt-link>
           </li>
           <li class="nav-item" v-if="isLoggedIn">
             <nuxt-link to="/requests">Requests</nuxt-link>
