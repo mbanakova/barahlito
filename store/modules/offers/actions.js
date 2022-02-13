@@ -1,8 +1,13 @@
 export default {
   async registerOffer(context, data) {
-    const userId = context.rootGetters.userId;
-
+    let offerId;
+    function getOfferId() {
+      offerId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+    }
+    getOfferId()
+    // console.log(offerId)
     const offerData = {
+      user: context.rootGetters.userId,
       date: data.date,
       title: data.title,
       thumbnail: data.thumbnail,
@@ -10,15 +15,16 @@ export default {
       hourlyRate: data.hourlyRate,
       areas: data.areas,
     }
-
+    console.log("action registerOffer: ", offerData)
     const token = context.rootGetters.token;
+
     // этот объект уедет в firebase
-    const response = await fetch(`https://barahlito-bc730-default-rtdb.firebaseio.com/coaches/${userId}.json?auth=` + token, {
+    const response = await fetch(`https://barahlito-bc730-default-rtdb.firebaseio.com/coaches/${offerId}.json?auth=` + token, {
       method: 'PUT',
       body: JSON.stringify(offerData)
     })
 
-    // const responseData = await response.json();
+    const responseData = await response.json();
 
     if (!response.ok) {
       const error = new Error(responseData.message);
@@ -27,7 +33,7 @@ export default {
 
     context.commit('registerOffer', {
       ...offerData,
-      id: userId
+      id: offerId
     })
   },
   async loadOffers(context, payload) {
@@ -49,6 +55,7 @@ export default {
     for (const key in responseData) {
       const offer = {
         id: key,
+        user: responseData[key].user,
         date: responseData[key].date,
         title: responseData[key].title,
         thumbnail: responseData[key].thumbnail,

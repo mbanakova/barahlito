@@ -32,7 +32,6 @@
             >Contact</base-button
           >
         </header>
-        <!-- <router-view></router-view> -->
         <contact-offer></contact-offer>
       </base-card>
     </section>
@@ -41,7 +40,6 @@
 
 <script>
 import ContactOffer from "../Requests/ContactOffer.vue";
-
 
 export default {
   components: { ContactOffer },

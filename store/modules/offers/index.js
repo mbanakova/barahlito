@@ -7,7 +7,7 @@ export default {
   state() {
     return {
       lastFetch: null,
-      offerss: [
+      offers: [
         {
           id: 'c1',
           owner: 'John Doe',

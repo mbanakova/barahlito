@@ -127,7 +127,7 @@ h2 {
 
 .filters__list {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   align-items: flex-start;
   gap: 10px;
 }

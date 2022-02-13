@@ -1,6 +1,4 @@
-<template>
-  <OffersList />
-</template>
+<template><div>offer ID</div></template>
 
 <script>
 export default {};

@@ -253,7 +253,7 @@ export default {
         hourlyRate: this.hourlyRate.val,
         areas: this.areas.val,
       };
-      console.log(formData);
+      console.log("OfferForm data: ", formData);
       this.$emit("save-data", formData);
     },
   },

@@ -30,9 +30,6 @@
 export default {
   props: ["id", "date", "title", "rate", "areas", "description", "thumbnail"],
   computed: {
-    // offerContactLink() {
-    //   return this.$route.path + "/" + this.id + "/contact"; //offers/c1/contact
-    // },
     offerDetailsLink() {
       return "/offers/" + this.id; //offers/c1
     },

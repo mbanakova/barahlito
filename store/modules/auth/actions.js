@@ -17,8 +17,8 @@ export default {
         returnSecureToken: true,
       })
       .then((result) => {
-        console.log(result);
         vuexContext.commit('setToken', result.idToken);
+        vuexContext.commit('setUserId', result.localId);
         localStorage.setItem('token', result.idToken);
         localStorage.setItem('tokenExpiration', new Date().getTime() + Number.parseInt(result.expiresIn) * 1000);
 

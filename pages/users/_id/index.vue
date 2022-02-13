@@ -1,5 +1,5 @@
 <template>
-  <OffersList />
+  <div>profile of user {{ $route.params.id }}</div>
 </template>
 
 <script>

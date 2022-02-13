@@ -1,6 +1,6 @@
 export default {
   // context - это название мутации
-  async contactCoach(context, payload) {
+  async contactOffer(context, payload) {
     const newRequest = {
       userEmail: payload.userEmail,
       message: payload.message,

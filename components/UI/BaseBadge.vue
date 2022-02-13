@@ -1,5 +1,5 @@
 <template>
-  <span class="badge" :class="type">{{ badgeTitle }}</span>
+  <span class="badge" :class="type">#{{ badgeTitle }}</span>
 </template>
 
 <script>
@@ -15,14 +15,13 @@ export default {
 
 <style scoped>
 .badge {
-  color: #9da9af;
-  padding: 2px 10px;
-  border: 1px solid #9da9af;
+  background-color: #e2e2e2;
+  padding: 1px 10px;
   font-weight: 700;
   font-size: 12px;
-  border-radius: 10px;
+  border-radius: 4px;
 }
-
+/* 
 .apparel {
   border-color: #275a81;
   color: #275a81;
@@ -86,5 +85,5 @@ export default {
 .others {
   border-color: #8d006e;
   color: #8d006e;
-}
+} */
 </style>

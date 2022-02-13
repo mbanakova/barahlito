@@ -35,22 +35,6 @@
             >
               Refresh
             </button>
-            <!-- <nuxt-link
-              to="/auth?redirect=register"
-              class="base-button"
-              v-if="!isLoggedIn"
-              >Login to add an offer</nuxt-link
-            > -->
-
-            <!-- <base-button
-              mode="standard"
-              v-if="isLoggedIn && !isOffer && !isLoading"
-              link
-              to="/register"
-              >register</base-button
-            > -->
-
-            <!-- trying to delete !isOffer for multiple offers per ID option -->
             <base-button
               mode="standard"
               v-if="isLoggedIn && !isLoading"
