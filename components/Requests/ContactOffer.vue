@@ -41,7 +41,7 @@ export default {
         userEmail: this.email,
         message: this.message,
       });
-      this.$router.replace("/offers");
+      this.$router.replace("/");
     },
   },
 };

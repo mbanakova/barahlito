@@ -1,11 +1,13 @@
 export default {
   // context - это название мутации
   async contactOffer(context, payload) {
+    console.log(payload)
     const newRequest = {
+      userId: context.rootGetters.userId,
       userEmail: payload.userEmail,
       message: payload.message,
     }
-    const response = await fetch(`https://barahlito-bc730-default-rtdb.firebaseio.com/requests/${payload.coachId}.json`, {
+    const response = await fetch(`https://barahlito-bc730-default-rtdb.firebaseio.com/requests/${payload.offerId}.json`, {
       method: 'POST',
       body: JSON.stringify(newRequest)
     });
@@ -13,7 +15,8 @@ export default {
     const responseData = await response.json();
 
     if (!response.ok) {
-      const error = new Error(responseData.message || 'Failed to send request')
+      const error = new Error(responseData.message || 'Failed to send request');
+      throw error
     }
 
     newRequest.id = responseData.name;
